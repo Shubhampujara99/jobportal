@@ -1,12 +1,13 @@
 from django import forms
-from .models import Job, Application
+from .models import Job
 
-class JobForm(forms.ModelForm):
-    class Meta:
-        model = Job
-        fields = ['title', 'description', 'requirements', 'location', 'job_type', 'salary']
+class JobSearchForm(forms.Form):
+    keyword = forms.CharField(required=False)
+    location = forms.CharField(required=False)
+    job_type = forms.ChoiceField(
+        choices=Job.JOB_TYPES, 
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
-class ApplicationForm(forms.ModelForm):
-    class Meta:
-        model = Application
-        fields = ['cover_letter']
+# Move ApplicationForm to models.py as ModelForm

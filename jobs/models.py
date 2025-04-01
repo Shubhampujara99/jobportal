@@ -22,6 +22,7 @@ class Job(models.Model):
     posted_date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_verified = models.BooleanField(default=False)
+    
 
 class Application(models.Model):
     STATUS_CHOICES = (
@@ -34,7 +35,11 @@ class Application(models.Model):
     
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     seeker = models.ForeignKey('accounts.JobSeeker', on_delete=models.CASCADE)
+    cover_letter = models.TextField()  # Add this field
     applied_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='applied')
-    interview_date = models.DateTimeField(null=True, blank=True)
-    notes = models.TextField(blank=True)
+
+class ApplicationForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['cover_letter']

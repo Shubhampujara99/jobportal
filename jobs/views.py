@@ -3,14 +3,12 @@ from django.contrib.auth.decorators import login_required
 from .models import Job
 from .forms import JobSearchForm
 
-@login_required
 def job_list(request):
-    jobs = Job.objects.filter(is_active=True, is_verified=True)
+    jobs = Job.objects.all()
     return render(request, 'jobs/list.html', {'jobs': jobs})
 
-@login_required
-def job_detail(request, job_id):
-    job = get_object_or_404(Job, pk=job_id)
+def job_detail(request, pk):
+    job = get_object_or_404(Job, pk=pk)
     return render(request, 'jobs/detail.html', {'job': job})
 
 @login_required

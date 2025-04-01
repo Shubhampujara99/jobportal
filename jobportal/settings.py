@@ -1,4 +1,3 @@
-# .gitignore
 import os
 """
 Django settings for jobportal project.
@@ -22,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'key'
+SECRET_KEY = 'django-insecure-&b#hquq3f!a4(4_2er=(05%9d9+585r@yj21g!c9$$ftu%d4v8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'job_portal',         # Database name you created in MySQL
         'USER': 'root',   # MySQL username (e.g., 'root' or a custom user)
-        'PASSWORD': 'password', # MySQL password
+        'PASSWORD': 'Shubh@987', # MySQL password
         'HOST': 'localhost',             # Or '127.0.0.1'
         'PORT': '3306',                  # Default MySQL port
     }
