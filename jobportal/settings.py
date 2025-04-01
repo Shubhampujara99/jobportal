@@ -1,3 +1,4 @@
+# .gitignore
 import os
 """
 Django settings for jobportal project.
