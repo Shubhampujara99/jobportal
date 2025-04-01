@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="employer-dashboard">
+    <h1>Employer Dashboard</h1>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Active Jobs</h3>
+            <p>{{ active_jobs_count }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Applications</h3>
+            <p>{{ total_applications }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Interviews</h3>
+            <p>{{ scheduled_interviews }}</p>
+        </div>
+    </div>
+    
+    <div class="recent-jobs">
+        <h2>Your Recent Job Postings</h2>
+        {% if jobs %}
+            <ul>
+            {% for job in jobs %}
+                <li>
+                    <a href="{% url 'job_detail' job.id %}">{{ job.title }}</a>
+                    <span class="applications">{{ job.application_set.count }} applications</span>
+                    <a href="{% url 'edit_job' job.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>You haven't posted any jobs yet.</p>
+        {% endif %}
+        <a href="{% url 'post_job' %}" class="btn btn-primary">Post New Job</a>
+    </div>
+    
+    <div class="recent-applications">
+        <h2>Recent Applications</h2>
+        {% if recent_applications %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Job</th>
+                        <th>Applicant</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in recent_applications %}
+                    <tr>
+                        <td><a href="{% url 'job_detail' app.job.id %}">{{ app.job.title }}</a></td>
+                        <td><a href="{% url 'view_resume' app.seeker.id %}">{{ app.seeker.user.get_full_name }}</a></td>
+                        <td class="status-{{ app.status }}">{{ app.get_status_display }}</td>
+                        <td>{{ app.applied_date|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="{% url 'review_application' app.id %}" class="btn btn-sm btn-primary">Review</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No applications yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

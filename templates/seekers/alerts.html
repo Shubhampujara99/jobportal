@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="alerts-page">
+    <h1>Your Job Alerts</h1>
+    
+    <div class="create-alert">
+        <a href="{% url 'create_alert' %}" class="btn btn-primary">Create New Alert</a>
+    </div>
+    
+    {% if alerts %}
+    <div class="alert-list">
+        {% for alert in alerts %}
+        <div class="alert-item">
+            <p>
+                <strong>Keyword:</strong> {{ alert.keyword }}<br>
+                <strong>Location:</strong> {{ alert.location|default:"Anywhere" }}<br>
+                <strong>Job Type:</strong> {{ alert.get_job_type_display|default:"Any" }}<br>
+                <strong>Status:</strong> {{ "Active" if alert.is_active else "Inactive" }}
+            </p>
+            <div class="alert-actions">
+                <a href="{% url 'edit_alert' alert.id %}" class="btn btn-secondary">Edit</a>
+                <a href="{% url 'delete_alert' alert.id %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>You haven't set up any job alerts.</p>
+    {% endif %}
+</div>
+{% endblock %}

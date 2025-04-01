@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="seeker-dashboard">
+    <h1>Job Seeker Dashboard</h1>
+    
+    <div class="dashboard-sections">
+        <div class="applications">
+            <h2>Your Applications</h2>
+            {% if applications %}
+                <ul>
+                {% for app in applications %}
+                    <li>
+                        <a href="{% url 'job_detail' app.job.id %}">{{ app.job.title }}</a>
+                        <span class="status {{ app.status }}">{{ app.get_status_display }}</span>
+                        {% if app.interview_date %}
+                            <p>Interview scheduled for: {{ app.interview_date }}</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't applied to any jobs yet.</p>
+            {% endif %}
+        </div>
+        
+        <div class="bookmarks">
+            <h2>Saved Jobs</h2>
+            {% if bookmarks %}
+                <ul>
+                {% for bookmark in bookmarks %}
+                    <li>
+                        <a href="{% url 'job_detail' bookmark.job.id %}">{{ bookmark.job.title }}</a>
+                        <a href="{% url 'remove_bookmark' bookmark.id %}" class="btn btn-sm btn-danger">Remove</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't saved any jobs yet.</p>
+            {% endif %}
+        </div>
+        
+        <div class="alerts">
+            <h2>Your Job Alerts</h2>
+            {% if alerts %}
+                <ul>
+                {% for alert in alerts %}
+                    <li>
+                        {{ alert.keyword }} in {{ alert.location|default:"any location" }}
+                        <a href="{% url 'delete_alert' alert.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't set up any job alerts.</p>
+            {% endif %}
+            <a href="{% url 'create_alert' %}" class="btn btn-primary">Create New Alert</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

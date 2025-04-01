@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="job-search">
+    <h1>Job Search</h1>
+    
+    <div class="search-form">
+        <form method="get" action="{% url 'job_search' %}">
+            <input type="text" name="keyword" value="{{ request.GET.keyword }}" placeholder="Job title or keywords">
+            <input type="text" name="location" value="{{ request.GET.location }}" placeholder="Location">
+            <select name="job_type">
+                <option value="">All Types</option>
+                <option value="full_time" {% if request.GET.job_type == 'full_time' %}selected{% endif %}>Full Time</option>
+                <option value="part_time" {% if request.GET.job_type == 'part_time' %}selected{% endif %}>Part Time</option>
+                <option value="contract" {% if request.GET.job_type == 'contract' %}selected{% endif %}>Contract</option>
+                <option value="internship" {% if request.GET.job_type == 'internship' %}selected{% endif %}>Internship</option>
+                <option value="remote" {% if request.GET.job_type == 'remote' %}selected{% endif %}>Remote</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    
+    <div class="search-results">
+        <h2>Search Results</h2>
+        {% if jobs %}
+            {% include 'jobs/list.html' with jobs=jobs %}
+        {% else %}
+            <p>No jobs match your search criteria.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

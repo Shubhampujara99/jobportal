@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>My Profile</h2>
+    <div class="profile-info">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone }}</p>
+        
+        {% if user.user_type == 1 %}
+            <p><strong>Role:</strong> Job Seeker</p>
+            <p><strong>Skills:</strong> {{ user.jobseeker.skills }}</p>
+            <p><strong>Experience:</strong> {{ user.jobseeker.experience }}</p>
+            <a href="{% url 'edit_profile' %}" class="btn btn-secondary">Edit Profile</a>
+        {% else %}
+            <p><strong>Role:</strong> Employer</p>
+            <p><strong>Company:</strong> {{ user.employer.company_name }}</p>
+            <p><strong>About Company:</strong> {{ user.employer.company_description }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

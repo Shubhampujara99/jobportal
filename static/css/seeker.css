@@ -1,0 +1,44 @@
+/* Seeker-specific styles */
+.seeker-dashboard .dashboard-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .seeker-dashboard .dashboard-sections {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard-sections > div {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.bookmarked-jobs .job-card, 
+.alert-list .alert-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.alert-actions {
+    margin-top: 10px;
+}
+
+.job-actions {
+    margin-top: 20px;
+}
+
+.bookmarks-page .job-card, 
+.alerts-page .alert-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

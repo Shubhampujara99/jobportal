@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="subscription-plans">
+    <h1>Choose a Subscription Plan</h1>
+    
+    <div class="plans">
+        {% for plan in plans %}
+        <div class="plan-card {% if plan.is_popular %}popular{% endif %}">
+            {% if plan.is_popular %}<div class="popular-badge">Most Popular</div>{% endif %}
+            <h2>{{ plan.name }}</h2>
+            <div class="price">${{ plan.price }}/month</div>
+            <div class="features">
+                {{ plan.description|linebreaks }}
+            </div>
+            <a href="{% url 'checkout' plan.id %}" class="btn btn-primary">Select Plan</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-form">
+    <h2>Sign Up</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Register as:</label>
+            <select name="user_type" class="form-control">
+                <option value="1">Job Seeker</option>
+                <option value="2">Employer</option>
+            </select>
+        </div>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Job Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">JobPortal</div>
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    {% if user.user_type == 1 %}
+                        <a href="{% url 'seeker_dashboard' %}">Dashboard</a>
+                        <a href="{% url 'job_list' %}">Browse Jobs</a>
+                    {% else %}
+                        <a href="{% url 'employer_dashboard' %}">Dashboard</a>
+                        <a href="{% url 'post_job' %}">Post Job</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 JobPortal. All rights reserved.</p>
+    </footer>
+    
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+
+<!-- templates/jobs/list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Job Listings{% endblock %}
+
+{% block content %}
+<div class="job-list-container">
+    <h1>Available Jobs</h1>
+    
+    <div class="search-form">
+        <form method="get" action="{% url 'job_search' %}">
+            <input type="text" name="keyword" placeholder="Job title or keywords">
+            <input type="text" name="location" placeholder="Location">
+            <select name="job_type">
+                <option value="">All Types</option>
+                <option value="full_time">Full Time</option>
+                <option value="part_time">Part Time</option>
+                <option value="contract">Contract</option>
+                <option value="internship">Internship</option>
+                <option value="remote">Remote</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    <div class="job-list">
+        {% for job in jobs %}
+        <div class="job-card">
+            <h2><a href="{% url 'job_detail' job.id %}">{{ job.title }}</a></h2>
+            <p class="company">{{ job.employer.company_name }}</p>
+            <p class="location">{{ job.location }}</p>
+            <p class="type">{{ job.get_job_type_display }}</p>
+            <p class="salary">{{ job.salary }}</p>
+            <p class="posted">Posted: {{ job.posted_date|date:"M d, Y" }}</p>
+            <a href="{% url 'add_bookmark' job.id %}" class="bookmark-btn">Save Job</a>
+        </div>
+        {% empty %}
+        <p>No jobs available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">Logout</a>
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}

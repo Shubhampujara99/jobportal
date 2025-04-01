@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="job-list">
+    <h1>Available Jobs</h1>
+    
+    <div class="search-form">
+        <form method="get" action="{% url 'job_search' %}">
+            <input type="text" name="keyword" placeholder="Job title or keywords">
+            <input type="text" name="location" placeholder="Location">
+            <select name="job_type">
+                <option value="">All Types</option>
+                <option value="full_time">Full Time</option>
+                <option value="part_time">Part Time</option>
+                <option value="contract">Contract</option>
+                <option value="internship">Internship</option>
+                <option value="remote">Remote</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    
+    <div class="jobs">
+        {% for job in jobs %}
+        <div class="job-card">
+            <h2><a href="{% url 'job_detail' job.id %}">{{ job.title }}</a></h2>
+            <p class="company">{{ job.employer.company_name }}</p>
+            <p class="location">{{ job.location }}</p>
+            <p class="type">{{ job.get_job_type_display }}</p>
+            <p class="salary">{{ job.salary }}</p>
+            <p class="posted">Posted: {{ job.posted_date|date:"M d, Y" }}</p>
+            {% if user.user_type == 1 %}
+                <a href="{% url 'add_bookmark' job.id %}" class="btn btn-secondary">Save Job</a>
+                <a href="{% url 'apply_job' job.id %}" class="btn btn-primary">Apply Now</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No jobs available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
